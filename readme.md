@@ -336,3 +336,106 @@ that could be used to implement the Pet Clinic then please join the community th
 The [issue tracker](https://github.com/spring-petclinic/spring-petclinic-rest/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
 
 For pull requests, editor preferences are available in the [editor config](https://github.com/spring-petclinic/spring-petclinic-rest/blob/master/.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
+
+## Commit Message Convention
+
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. This leads to more readable messages that are easy to follow when looking through the project history.
+
+### Commit Message Format
+
+Each commit message consists of a **header**, a **body** and a **footer**. The header has a special format that includes a **type**, a **scope** and a **subject**:
+
+```
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+The **header** is mandatory and the **scope** of the header is optional.
+
+### Type
+
+Must be one of the following:
+
+*   **build**: Changes that affect the build system or external dependencies (example scopes: maven, docker)
+*   **ci**: Changes to our CI configuration files and scripts (example scopes: github-actions)
+*   **docs**: Documentation only changes
+*   **feat**: A new feature
+*   **fix**: A bug fix
+*   **perf**: A code change that improves performance
+*   **refactor**: A code change that neither fixes a bug nor adds a feature
+*   **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+*   **test**: Adding missing tests or correcting existing tests
+
+### Examples
+
+*   `feat(owner): add email field to owner`
+*   `fix(pet): resolve null pointer exception in pet service`
+*   `docs(readme): update installation instructions`
+*   `build(maven): bump spring-boot-starter-parent to 3.2.1`
+
+### Enforcement
+
+We use [commitlint](https://commitlint.js.org/) to enforce these rules on Pull Requests.
+
+#### Local Setup
+
+To check your commits locally before pushing, you can use the following methods:
+
+**1. Manual Check (Requires Node.js)**
+
+If you have Node.js installed, you can install `commitlint` globally:
+
+```bash
+npm install -g @commitlint/cli @commitlint/config-conventional
+```
+
+Then, you can check your last commit message:
+
+```bash
+echo $(git log -1 --pretty=%B) | commitlint
+```
+
+**2. Git Commit Template**
+
+To make it easier to follow the convention, you can use a git commit template. We have provided a `.gitmessage` file in the root of the project.
+
+To configure git to use this template for this repository, run:
+
+```bash
+git config --local commit.template .gitmessage
+```
+
+Once configured, your editor will be pre-filled with the template whenever you run `git commit`.
+
+**3. Automatic Enforcement (Git Hooks)**
+
+To automatically validate commit messages whenever you run `git commit`, we recommend using `husky`.
+
+First, initialize a `package.json` if you don't have one (optional, but good for managing dev dependencies):
+
+```bash
+npm init -y
+```
+
+Install `husky` and `commitlint` as dev dependencies:
+
+```bash
+npm install --save-dev husky @commitlint/cli @commitlint/config-conventional
+```
+
+Activate hooks:
+
+```bash
+npx husky init
+```
+
+Add the commit-msg hook:
+
+```bash
+echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
+```
+
+Now, every time you commit, `commitlint` will automatically validate your message.
