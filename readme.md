@@ -386,17 +386,19 @@ To check your commits locally before pushing, you can use the following methods:
 
 **1. Manual Check (Requires Node.js)**
 
-If you have Node.js installed, you can install `commitlint` globally:
+If you have Node.js installed, you can use `npx` to run `commitlint` without installing it globally:
 
 ```bash
-npm install -g @commitlint/cli @commitlint/config-conventional
+echo $(git log -1 --pretty=%B) | npx commitlint
 ```
 
-Then, you can check your last commit message:
+Or, if you prefer using `make`:
 
 ```bash
-echo $(git log -1 --pretty=%B) | commitlint
+make verify-commit
 ```
+
+Alternatively, you can install `commitlint` globally:
 
 **2. Git Commit Template**
 
